@@ -1,0 +1,57 @@
+h1 {
+	font-size:large;
+	text-align:center;
+}
+body {
+	font-size:0.75em;
+}
+header {
+	font-size:xx-large;
+	text-align:center;
+	font-weight:bold;
+}
+.active-player, .inactive-player {
+	padding:0.75em;
+	width:40%;
+	height:15px;
+	display:inline-block;
+	font-size:1em;
+
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.active-player {
+	background: #cb60b3; /* old browsers */
+	background: -moz-linear-gradient(top, #cb60b3 0%, #c146a1 15%, #a80077 16%, #db36a4 100%); /* firefox */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cb60b3), color-stop(15%,#c146a1), color-stop(16%,#a80077), color-stop(100%,#db36a4)); /* webkit */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cb60b3', endColorstr='#db36a4',GradientType=0 ); /* ie */
+
+	color:#ff0;
+	font-weight:bold;
+}
+.inactive-player {
+	background-color:#c9c;
+	color:#000;
+}
+.lhs {
+	text-align:left;
+	padding-left:1em;
+	-moz-border-radius-topleft: 20px 20px;
+	border-top-left-radius: 20px 20px;
+}
+.rhs {
+	text-align:right;
+	padding-right:1em;
+	-moz-border-radius-topright: 20px 20px;
+	border-top-right-radius: 20px 20px;
+}
+.ball {
+	vertical-align:middle;
+}
+#breakHistoryContainer {
+	line-height:30px;
+}
+.points {
+	color:#fff;
+	font-weight:normal;
+}
