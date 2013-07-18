@@ -32,30 +32,17 @@
 				<br />
 				<label for="playername">Player:</label>
 				<input type="text" id="playername" value=""  />
-				
-				
+			
 				<fieldset data-role="controlgroup" data-type="horizontal">
 				    <legend>Tee:</legend>
 				    <input type="radio" name="tee-choice" id="tee-choice-blue" value="blue" checked="checked"  />
 				    <label for="tee-choice-blue">Blue</label>
-				
 				    <input type="radio" name="tee-choice" id="tee-choice-white" value="white"  />
-				    <label for="tee-choice-white">White</label>
-				
+				    <label for="tee-choice-white">White</label>	
 				    <input type="radio" name="tee-choice" id="tee-choice-red" value="red"  />
 				    <label for="tee-choice-red">Red</label>
-
 				</fieldset>
-				
-				
-				<!--
-				<label for="player2name">Player 2:</label>
-				<input type="text" id="player2name" value=""  />
-				<label for="player3name">Player 3:</label>
-				<input type="text" id="player3name" value=""  />
-				<label for="player4name">Player 4:</label>
-				<input type="text" id="player4name" value=""  />
-				-->
+
 			</div>
 			<p><a id="letsPlay" href="#framePlay" data-role="button" data-transition="none">Play</a></p>	
 		</div>
@@ -64,305 +51,123 @@
 	<div data-role="page" id="framePlay">
 
 		<div data-role="header" data-theme="b" data-backbtn="false">
-			<div><h1>Golf Scoreboard</h1></div>
-		</div>
-
-	<div data-role="content">
-		
-		<div data-role="fieldcontain">
 			<center>
-				<div id="hole-img" >
-					<img class="ball" src="images/h1.png" >
-				</div>	
+				<img class="ball" src="images/h1.png" >
 			</center>
-
-		<!--
-		<div data-role="controlgroup" data-type="horizontal">
-			<div id="player1block" class="lhs active-player">
-				<span id="player1"></span>
-				<span class="points">(<span id="player1points">0</span>)</span>
-			</div>
-			<div id="player2block" class="rhs inactive-player">
-				<span class="points">(<span id="player2points">0</span>)</span>
-				<span id="player2"></span>
-			</div>
 		</div>
-		-->
-		
-<!--
-		<div data-role="controlgroup" data-type="vertical">
-					</div>
-		-->
-		
-				<fieldset data-role="controlgroup" data-type="horizontal" >
-					<!---->
-				    <legend>Par:</legend>
 
-				    <input type="radio" name="par-choice" id="par-choice-3" value="3"   />
-				    <label for="par-choice-3">3</label>
-		
-				    <input type="radio" name="par-choice" id="par-choice-4" value="4"   />
-				    <label for="par-choice-4">4</label>
-		
-				    <input type="radio" name="par-choice" id="par-choice-5" value="5"   />
-				    <label for="par-choice-5">5</label>
-		
-				    <input type="radio" name="par-choice" id="par-choice-6" value="6"   />
-				    <label for="par-choice-6">6</label>
-		
-				</fieldset>
-	
-				<fieldset data-role="controlgroup" data-type="horizontal" >
-				      <legend>Drive to: </legend>
-				   
-				  <!--
-				    <input type="radio" name="drive-choice" id="drive-choice-na" value="NA" checked="checked"  />
-				    <label for="drive-choice-na">Drive to</label> -->
-		
-				    <input type="radio" name="drive-choice" id="drive-choice-fairway" value="F"   />
-				    <label for="drive-choice-fairway">Fairway</label>
-		
-
-				    <input type="radio" name="drive-choice" id="drive-choice-left" value="L"   />
-				    <label for="drive-choice-left">Left</label>
-		
-				    <input type="radio" name="drive-choice" id="drive-choice-right" value="R"   />
-				    <label for="drive-choice-right">Right</label>
-		
-		
-				</fieldset>
-				
+		<div data-role="content">
 			
-				
-		
-				<fieldset data-role="controlgroup" data-type="horizontal" >
-				     <legend>Strokes to green: </legend>
-				     <!--
-				    <input type="radio" name="to-green-choice" id="to-green-choice-na" value="NA" checked="checked"  />
-				    <label for="to-green-choice-na"># to green</label>
-		-->			 
-				    <input type="radio" name="to-green-choice" id="to-green-choice-1" value="1"  />
-				    <label for="to-green-choice-1">1</label>
-		
-				    <input type="radio" name="to-green-choice" id="to-green-choice-2" value="2"  />
-				    <label for="to-green-choice-2">2</label>
-		
-		
-				    <input type="radio" name="to-green-choice" id="to-green-choice-3" value="3"  />
-				    <label for="to-green-choice-3">3</label>
-		
-		
-				    <input type="radio" name="to-green-choice" id="to-green-choice-4" value="4"  />
-				    <label for="to-green-choice-4">4</label>
-		
-		
-				    <input type="radio" name="to-green-choice" id="to-green-choice-5" value="5"  />
-				    <label for="to-green-choice-5">5</label>
-		
-				    <input type="radio" name="to-green-choice" id="to-green-choice-6" value="6"  />
-				    <label for="to-green-choice-6">6</label>
-		
-		
-				</fieldset>
-	
-
-		<!--
-		<div data-role="controlgroup" id="ballSelection">
-
-			<span id="h1">
-				<img class="ball" src="images/h1.png" id="h1.png">
-			</span>
-			
-			<span id="h2">
-				<img class="ball" src="images/h2.png" id="h2.png">
-			</span>
-						
-			<span id="h3">
-				<img class="ball" src="images/h3.png" id="h3.png">
-			</span>
-						
-			<span id="h4">
-				<img class="ball" src="images/h4.png" id="h4.png">
-			</span>
-						
-			<span id="h5">
-				<img class="ball" src="images/h5.png" id="h5.png">
-			</span>
-						
-			<span id="h6">
-				<img class="ball" src="images/h6.png" id="h6.png">
-			</span>
-						
-			<span id="h7">
-				<img class="ball" src="images/h7.png" id="h7.png">
-			</span>
-						
-			<span id="h8">
-				<img class="ball" src="images/h8.png" id="h8.png">
-			</span>
-						
-			<span id="h9">
-				<img class="ball" src="images/h9.png" id="h9.png">
-			</span>
-						
-			<span id="h10">
-				<img class="ball" src="images/h10.png" id="h10.png">
-			</span>
-						
-			<span id="h11">
-				<img class="ball" src="images/h11.png" id="h11.png">
-			</span>
-						
-			<span id="h12">
-				<img class="ball" src="images/h12.png" id="h12.png">
-			</span>
-						
-			<span id="h13">
-				<img class="ball" src="images/h13.png" id="h13.png">
-			</span>
-						
-			<span id="h14">
-				<img class="ball" src="images/h14.png" id="h15.png">
-			</span>
-						
-			<span id="h5">
-				<img class="ball" src="images/h15.png" id="h15.png">
-			</span>
-						
-			<span id="h16">
-				<img class="ball" src="images/h16.png" id="h16.png">
-			</span>
-						
-			<span id="h17">
-				<img class="ball" src="images/h17.png" id="h17.png">
-			</span>
-							
-			<span id="h18">
-				<img class="ball" src="images/h18.png" id="h18.png">
-			</span>
-	
-		</div>
-
-
-
-
-
-
-
-
-            <table id="score-table">
-              <thead>
-                <tr>
-                  <th >Player</th>
-                  
-                  <th >To Green</th>
-                  <th >On Green</th>
-                  <th >Score</th>
-                </tr>
-              </thead>
-              <tbody>
-              	
-                <tr>
-                	
- 				 <td>
- 				 	<div id="player1block" class="lhs active-player">
-						<span id="player1"></span>
-						<span class="points">(<span id="player1points">0</span>)</span>
-					</div>
- 			
- 				 </td>
- 				 
-                  <td>5</td>
-                  <td>3</td>
-                  <td>2</td>
-                </tr>
-                
-	
-                <tr>
-                	
- 				 <td>
- 				 	<div id="player1block" class="lhs active-player">
-						<span id="player1"></span>
-						<span class="points">(<span id="player1points">0</span>)</span>
-					</div>
- 			
- 				 </td>
- 				 
-                  <td>5</td>
-                  <td>3</td>
-                  <td>2</td>
-                </tr>
-                
-	
-                <tr>
-                	
- 				 <td>
- 				 	<div id="player1block" class="lhs active-player">
-						<span id="player1"></span>
-						<span class="points">(<span id="player1points">0</span>)</span>
-					</div>
- 			
- 				 </td>
- 				 
-                  <td>5</td>
-                  <td>3</td>
-                  <td>2</td>
-                </tr>
-                
-	
-                <tr>
-                 	
- 				 <td>
- 				 	<div id="player1block" class="lhs active-player">
-						<span id="player1"></span>
-						<span class="points">(<span id="player1points">0</span>)</span>
-					</div>
- 			
- 				 </td>
- 				 
-                  <td>5</td>
-                  <td>3</td>
-                  <td>2</td>
-                </tr>
-                
-
-              </tbody>
-            </table>
-
-		-->
-
-
-		<!--
-		<div data-role="controlgroup" data-type="horizontal">
-			<a data-role="button" data-icon="delete" id="miss">Miss</a>
-			<a data-role="button" data-icon="star" id="resign">Resign</a>
-		</div>
-
-		<div>
-			<p>Points remaining: <span id="pointsRemaining"></span></p>
-		</div>
-
-		<div id="breakHistoryContainer">
-			Break (<span id="breakTotal">0</span>)
-			<span id="breakHistory"></span>
-			
-		</div>
-		-->
-		</div>
-	</div>
-<!--
-		<div data-role="collapsible" data-collapsed="true">
-			<h3>Game History</h3>
-			<p id="gameHistory"></p>
-		</div>
+			<div data-role="fieldcontain">
+				<!--
+					<center>
+						<div id="hole-img" >
+							<img class="ball" src="images/h1.png" >
+						</div>	
+					</center>
 	-->
-	
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>Par:</legend>
+					    <input type="radio" name="par-choice" id="par-choice-3" value="3"   />
+					    <label for="par-choice-3">3</label>
+					    <input type="radio" name="par-choice" id="par-choice-4" value="4"   />
+					    <label for="par-choice-4">4</label>
+					    <input type="radio" name="par-choice" id="par-choice-5" value="5"   />
+					    <label for="par-choice-5">5</label>		
+					    <input type="radio" name="par-choice" id="par-choice-6" value="6"   />
+					    <label for="par-choice-6">6</label>
+					</fieldset>
+		
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>Drive to: </legend>			
+					    <input type="radio" name="drive-choice" id="drive-choice-fairway" value="F"   />
+					    <label for="drive-choice-fairway">Fairway</label>
+					    <input type="radio" name="drive-choice" id="drive-choice-left" value="L"   />
+					    <label for="drive-choice-left">Left</label>		
+					    <input type="radio" name="drive-choice" id="drive-choice-right" value="R"   />
+					    <label for="drive-choice-right">Right</label>	
+					</fieldset>
+		
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>Strokes to green: </legend>	 
+					    <input type="radio" name="to-green-choice" id="to-green-choice-1" value="1"  />
+					    <label for="to-green-choice-1">1</label>
+					    <input type="radio" name="to-green-choice" id="to-green-choice-2" value="2"  />
+					    <label for="to-green-choice-2">2</label>
+					    <input type="radio" name="to-green-choice" id="to-green-choice-3" value="3"  />
+					    <label for="to-green-choice-3">3</label>
+					    <input type="radio" name="to-green-choice" id="to-green-choice-4" value="4"  />
+					    <label for="to-green-choice-4">4</label>
+					    <input type="radio" name="to-green-choice" id="to-green-choice-5" value="5"  />
+					    <label for="to-green-choice-5">5</label>
+					    <input type="radio" name="to-green-choice" id="to-green-choice-6" value="6"  />
+					    <label for="to-green-choice-6">6</label>
+					</fieldset>
+								
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>100 or less to green: </legend>	 
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-s" value="S"  />
+					    <label for="100-to-green-choice-s">Success</label>
+					    					    
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fs" value="FS"  />
+					    <label for="100-to-green-choice-fs">Fail (Sand)</label>
+					    
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fo" value="FO"  />
+					    <label for="100-to-green-choice-fo">Fail (Other)</label>
+					    
+					</fieldset>						
+					
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>Putts: </legend>	
+					    <input type="radio" name="putts-choice" id="putts-choice-0" value="0"  />
+					    <label for="putts-choice-0">0</label> 
+					    <input type="radio" name="putts-choice" id="putts-choice-1" value="1"  />
+					     <label for="putts-choice-1">1</label>
+					    <input type="radio" name="putts-choice" id="putts-choice-2" value="2"  />
+					    <label for="putts-choice-2">2</label>
+					    <input type="radio" name="putts-choice" id="putts-choice-3" value="3"  />
+					    <label for="putts-choice-3">3</label>
+					    <input type="radio" name="putts-choice" id="putts-choice-4" value="4"  />
+					    <label for="putts-choice-4">4</label>
+					    <input type="radio" name="putts-choice" id="putts-choice-5" value="5"  />
+					    <label for="putts-choice-5">5</label>
+					    <input type="radio" name="putts-choice" id="putts-choice-6" value="6"  />
+					    <label for="putts-choice-6">6</label>
+					</fieldset>
+
+				    <label for="slider">Penaltys:</label>
+				    <select name="slider" id="slider" data-role="slider">			        
+				        <option value="N">No</option>
+				        <option value="Y">Yes</option>
+				    </select>
+
+			</div>
+
+
+		</div>
+		<div  data-role="footer">
+			<center>		
+				<div data-role="controlgroup" data-type="horizontal">
+					<a data-role="button" data-icon="grid" id="summary" href="#summaryPage">Summary</a>					
+					<a data-role="button" data-icon="arrow-r" id="next">Next Hole</a>		
+				</div>			
+			</center>
+		</div>			
+
+	</div>
+
+
+	<div data-role="page" id="summaryPage">
+		
 	</div>
 
 	<script src="scripts/3rdParty/jqueryMin.js"></script>
 	<script src="scripts/3rdParty/jqueryMobileMin.js"></script>
 	<script src="scripts/3rdParty/pubsub.js"></script>
-	<script src="phonegap093.js"></script>
+	<!--  it was required to add the PhoneGap JavaScript library to the web pages,
+		 even if you don’t need to use any special features of PhoneGap.-->
+	<script src="phonegap.js"></script>
+
 	<script src="scripts/golf.js"></script>
 </body>
 </html>

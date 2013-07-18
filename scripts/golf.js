@@ -1,11 +1,10 @@
 
-//console.info("begin run golf js...");
 /************************************************************** 
  * JavaScript module contains constant
  * Purpose: protect the variables against modification
  * Of special note:  you have to use the get() method on CONFIG
  **************************************************************/ 
-var CONFIG = (function(my) {
+var GOLF_CONFIG = (function(my) {
 	var private = {
 		'START_GAME': 'game/start',
 		'CLICK_ACTION': 'click'
@@ -17,14 +16,7 @@ var CONFIG = (function(my) {
 	
 	return my;
 
-})(CONFIG || {});
-
-// console.info('CLICK_ACTION', CONFIG.get('CLICK_ACTION'));  
-// console.info('START_GAME', CONFIG.get('START_GAME')); 
-           
-// var clickAction = 'click';
-// var startGameTopic = 'game/start';
-
+})(GOLF_CONFIG || {});
  
 /************************************************************** 
  * HoleInfo object
@@ -57,21 +49,19 @@ var PlayerInfo = function () {
 
 
 /************************************************************** 
- * JavaScript module GOLFDB
+ * JavaScript module GOLF_MODEL
  * Purpose: store all the game info
  * Of special note: loosed couple design, know nothing about view
  **************************************************************/ 
-var GOLFDB = (function (my) {
-	console.info("golf db...");
+var GOLF_MODEL = (function (my) {
 	my.course = '';
 	my.player = null;
 	my.holes = null;
 	my.init = function (){
-		console.info("GOLFDB.init（）");
 		//
 		// subscribe all the topics
 		//
-		$.subscribe(CONFIG.get('START_GAME'), function(course, player) {
+		$.subscribe(GOLF_CONFIG .get('START_GAME'), function(course, player) {
 			my.startGame(course, player);
 		});
 	};
@@ -92,26 +82,25 @@ var GOLFDB = (function (my) {
 	};
 	
 	return my;
-}(GOLFDB || {}));
+}(GOLF_MODEL || {}));
 
 
-GOLFDB.init();
+GOLF_MODEL.init();
 
 
 /************************************************************** 
- * JavaScript module GOLFVIEW
+ * JavaScript module GOLF_CONTROLER
  * Purpose: responsible for updating views
  * Of special note: loosed couple design, know nothing about model
  **************************************************************/ 
-var GOLFVIEW = (function (my) {
+var GOLF_CONTROLER = (function (my) {
 	console.info("golf view...");
 	my.init = function (){
-		console.info("GOLFVIEW.init（）");
 		// bind ui click event
-		$('#letsPlay').bind(CONFIG.get('CLICK_ACTION'), function(){
+		$('#letsPlay').bind(GOLF_CONFIG .get('CLICK_ACTION'), function(){
 			console.info("click");
 		
-			GOLFVIEW.startGame();
+			my.startGame();
 		});
 	};
 	my.startGame = function () {
@@ -121,15 +110,15 @@ var GOLFVIEW = (function (my) {
 		player.name = $('#playername').val();
 		player.tee = $('input[name=tee-choice]:checked').val();
 		console.info("player: ", player);
-		$.publish(CONFIG.get('START_GAME') , [course, player]);
+		$.publish(GOLF_CONFIG.get('START_GAME') , [course, player]);
 	};
 	
 
 	return my;
-}(GOLFVIEW || {}));
+}(GOLF_CONTROLER || {}));
 
 
-GOLFVIEW.init();
+GOLF_CONTROLER.init();
 
 
 
