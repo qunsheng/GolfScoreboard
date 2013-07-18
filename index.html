@@ -5,10 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Golf Scoreboard</title>
 
-	<!-- jQuery Mobile : Start-->
+	<!-- jQuery Mobile : 
 	<link rel="stylesheet" href="style/3rdParty/jQueryMobile/jqueryMobileMin.css" />
-	<!-- jQuery Mobile : End-->
 
+	<link rel="stylesheet" href="style/3rdParty/jQueryMobile/jquery.mobile.structure-1.3.1.css" />
+	<link rel="stylesheet" href="style/3rdParty/jQueryMobile/jquery.mobile.theme-1.3.1.css" />
+	: End-->
+	<link rel="stylesheet" href="style/3rdParty/jQueryMobile/jquery.mobile-1.3.1.css" />
+	
 	<script>
 	var isIE6 = /msie|MSIE 6/.test(navigator.userAgent);
 	if (isIE6) {
@@ -47,25 +51,84 @@
 			<p><a id="letsPlay" href="#framePlay" data-role="button" data-transition="none">Play</a></p>	
 		</div>
 	</div>
- 
+ 	
+ 						
+			<div id="menu" data-role="popup">
+				<center>
+					<div id="holeLinks" data-role="fieldcontain">				
+						<a href="#framePlay" >	
+							<img class="ball" src="images/h1.png" id="1">					
+						</a>
+						<a href="#framePlay">
+							<img class="ball" src="images/h2.png"  id="2">			
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h3.png" id="3">							 
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h4.png" id="4">
+						</a>
+						<a href="#framePlay">
+							<img class="ball" src="images/h5.png" id="5">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h6.png" id="6">
+						</a>
+						<a href="#framePlay">
+							<img class="ball" src="images/h7.png" id="7" >
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h8.png" id="8">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h9.png" id="9">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h10.png" id="10">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h11.png" id="11">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h12.png" id="12">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h13.png" id="13">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h14.png" id="14">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h15.png" id="15" >
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h16.png" id="16">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h17.png" id="17">
+						</a>
+						<a href="#framePlay" >
+							<img class="ball" src="images/h18.png" id="18">
+						</a>
+					</div>
+				</center>
+			</div>
+			
 	<div data-role="page" id="framePlay">
 
 		<div data-role="header" data-theme="b" data-backbtn="false">
+			<a href="#menu"	data-role="button"	deata-rel="popup"	>Go To Hole</a>
+
+		
 			<center>
-				<img class="ball" src="images/h1.png" >
+				<img id="holeImg"  >
 			</center>
 		</div>
 
 		<div data-role="content">
 			
 			<div data-role="fieldcontain">
-				<!--
-					<center>
-						<div id="hole-img" >
-							<img class="ball" src="images/h1.png" >
-						</div>	
-					</center>
-	-->
+
 					<fieldset data-role="controlgroup" data-type="horizontal" >
 					    <legend>Par:</legend>
 					    <input type="radio" name="par-choice" id="par-choice-3" value="3"   />
@@ -103,19 +166,6 @@
 					    <input type="radio" name="to-green-choice" id="to-green-choice-6" value="6"  />
 					    <label for="to-green-choice-6">6</label>
 					</fieldset>
-								
-					<fieldset data-role="controlgroup" data-type="horizontal" >
-					    <legend>100 or less to green: </legend>	 
-					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-s" value="S"  />
-					    <label for="100-to-green-choice-s">Success</label>
-					    					    
-					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fs" value="FS"  />
-					    <label for="100-to-green-choice-fs">Fail (Sand)</label>
-					    
-					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fo" value="FO"  />
-					    <label for="100-to-green-choice-fo">Fail (Other)</label>
-					    
-					</fieldset>						
 					
 					<fieldset data-role="controlgroup" data-type="horizontal" >
 					    <legend>Putts: </legend>	
@@ -134,9 +184,22 @@
 					    <input type="radio" name="putts-choice" id="putts-choice-6" value="6"  />
 					    <label for="putts-choice-6">6</label>
 					</fieldset>
-
-				    <label for="slider">Penaltys:</label>
-				    <select name="slider" id="slider" data-role="slider">			        
+			
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>100 or less to green: </legend>	 
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-s" value="S"  />
+					    <label for="100-to-green-choice-s">Success</label>
+					    					    
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fs" value="FS"  />
+					    <label for="100-to-green-choice-fs">Fail (Sand)</label>
+					    
+					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fo" value="FO"  />
+					    <label for="100-to-green-choice-fo">Fail (Other)</label>
+					    
+					</fieldset>						
+					
+				    <label for="penalties">Penalties:</label>
+				    <select name="penalties" id="penalties" data-role="slider">			        
 				        <option value="N">No</option>
 				        <option value="Y">Yes</option>
 				    </select>
@@ -148,8 +211,15 @@
 		<div  data-role="footer">
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">
+					
+					<a data-role="button" data-icon="star" id="summary" href="#first9Page">First 9</a>					
+					
+					<a data-role="button" data-icon="star" id="summary" href="#back9Page">Back 9</a>					
+					
 					<a data-role="button" data-icon="grid" id="summary" href="#summaryPage">Summary</a>					
-					<a data-role="button" data-icon="arrow-r" id="next">Next Hole</a>		
+					
+					<a data-role="button" data-icon="arrow-r" id="nextHole">Next Hole</a>		
+				
 				</div>			
 			</center>
 		</div>			
@@ -157,12 +227,31 @@
 	</div>
 
 
+	<div data-role="page" id="first9Page">
+		
+	</div>
+
+			
+	<div data-role="page" id="back9Page">
+		
+	</div>
+
+			
+
 	<div data-role="page" id="summaryPage">
 		
 	</div>
 
+	<!--
 	<script src="scripts/3rdParty/jqueryMin.js"></script>
+	-->
+	<script src="scripts/3rdParty/jquery.js"></script>
+	<!--
 	<script src="scripts/3rdParty/jqueryMobileMin.js"></script>
+
+		-->
+	<script src="scripts/3rdParty/jquery.mobile-1.3.1.js"></script>
+
 	<script src="scripts/3rdParty/pubsub.js"></script>
 	<!--  it was required to add the PhoneGap JavaScript library to the web pages,
 		 even if you don’t need to use any special features of PhoneGap.-->
