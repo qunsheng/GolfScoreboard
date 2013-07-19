@@ -1,3 +1,8 @@
+/************************************************************** 
+ * This is JavaScript libary for golf score phonegap application
+ * To get latest code, go to 
+ * https://github.com/qunsheng/GolfScoreboard
+ **************************************************************/ 
 
 /************************************************************** 
  * JavaScript module contains constant
@@ -173,12 +178,26 @@ var GOLF_CONTROLER = (function (controller) {
 		//
 		
 		$('#holeLinks a').each(function(){
-			console.info("find link", this);
+			//console.info("find link", this);
 			$(this).bind(GOLF_CONFIG .get('CLICK_ACTION'), function(e){
 				 console.info("hole links clicked: ", e.target.id);
 				 $.publish(GOLF_CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
+		
+								
+		// 		
+		// bind first9 click event
+		//
+				
+		$('#first9List li a').each(function(){
+			console.info("find first 9 link", this);
+			$(this).bind(GOLF_CONFIG .get('CLICK_ACTION'), function(e){
+				 console.info("hole links clicked: ", e.target);
+				 $.publish(GOLF_CONFIG.get('GO_TO_HOLE') , [e.target.id]);
+			});
+		});
+		
 	};
 	controller.startGame = function () {
 		console.info("start game...");
