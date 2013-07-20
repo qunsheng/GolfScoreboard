@@ -3,24 +3,31 @@
  * To get latest code, go to 
  * https://github.com/qunsheng/GolfScoreboard
  **************************************************************/ 
+var WEBCLOUZ= WEBCLOUZ || {};
+WEBCLOUZ.GOLF= WEBCLOUZ.GOLF || {};
 
 /************************************************************** 
  * JavaScript module contains constant
  * Purpose: protect the variables against modification
  * Of special note:  you have to use the get() method on CONFIG
  **************************************************************/ 
-var GOLF_CONFIG = (function(config) {
+WEBCLOUZ.GOLF.CONFIG = (function(config) {
 	var private = {
 		//
 		// topics from controller to model
 		//
 		'START_GAME': 'startGame',
+		'SUBMIT_HOLE': 'sumitHole',
 		'PREV_HOLE': 'prevHole',
 		'NEXT_HOLE': 'nextHole',
 		'UPDATE_HOLE': 'updateHole',
 		'GO_TO_HOLE': 'goToHole',
+		//
 		// topics from model to controller
+		//
 		'CURRENT_HOLE_INFO': 'currentHoleInfo',
+		'SUMMARY_INFO': 'summaryInfo',
+		// event actions
 		'CLICK_ACTION': 'click'
 	};
 	config.get = function (name) {
@@ -30,51 +37,61 @@ var GOLF_CONFIG = (function(config) {
 	
 	return config;
 
-})(GOLF_CONFIG || {});
+})(WEBCLOUZ.GOLF.CONFIG || {});
  
 /************************************************************** 
- * HoleInfo object
+ * HoleInfo constructor
  * Purpose: save golf hole information
  **************************************************************/ 
-var HoleInfo = function () {
+WEBCLOUZ.GOLF.HoleInfo = function () {
 
     this.name = ' ';
     this.number = 0;
-    this.par = -1;
+    this.par = '-1';
     this.drive = ' ';
-    this.numToGreen = -1;
-    this.numPutts = -1;
+    this.numToGreen = '-1';
+    this.numPutts = '-1';
     this.less100ToGreen = null;
     this.penalties = 'N';
-    this.totalNum = -1; // if totalNum > 0, then this hole is played
+    this.totalNum = 0; // if totalNum > 0, then this hole is played
+    this.score = 0;
 
     return this;
 };
 
  
 /************************************************************** 
- * GameSummary object
+ * GameSummary constructor
  * Purpose: calculate summary
  **************************************************************/ 
-var GameSummary = function () {
+WEBCLOUZ.GOLF.GameSummary = function () {
 
-    this.score = 0;
-    this.totalStrokers = 0;
+	this.totalPar = 0;
+    this.totalNum = 0;
     this.totalHolePlayed = 0;
-    this.aveFairwayHit = 0; //%
+    
     this.totalPutts = 0;
-    this.avePuts = 0; //%
-    this.ave100ToGreen = 0; //%
-    this.avePenalty = 0;
+    this.totalDrive = 0;
+    this.total100Less = 0;
+    this.totalPenaltyHoles = 0;
+    
+    this.fairwayHit = 0;
+    this.made100ToGreen = 0;
+    
+    this.score = 0; // totalNum - totalPar
+    this.aveFairwayHit = 0; // fairwayHit/totalDrive
+    this.avePuts = 0; // totalPutts/totalHolePlayed
+    this.ave100ToGreen = 0; // made100ToGreen/total100Less
+    this.avePenalty = 0; // totalPenaltyHoles/totalHolePlayed
 
     return this;
 };
 
 /************************************************************** 
- * PlayerInfo object
+ * PlayerInfo constructor
  * Purpose: save golf hole information
  **************************************************************/ 
-var PlayerInfo = function () {
+WEBCLOUZ.GOLF.PlayerInfo = function () {
 
     this.name = ' ';
     this.tee = ' ';
@@ -84,37 +101,40 @@ var PlayerInfo = function () {
 
 
 /************************************************************** 
- * JavaScript module GOLF_MODEL
+ * JavaScript module WEBCLOUZ.GOLF.MODEL
  * Purpose: store all the game info
  * Of special note: loosed couple design, know nothing about view
  **************************************************************/ 
-var GOLF_MODEL = (function (model) {
+WEBCLOUZ.GOLF.MODEL = (function (model) {
 	model.course = '';
 	model.player = null;
 	model.holes = null;
 	model.summary = null;
 	model.currentHole = 0;
+	//
+	// init
+	//
 	model.init = function (){
 		
 		//
 		// model subscribe topics
 		//
 		
-		$.subscribe(GOLF_CONFIG .get('START_GAME'), function(course, player) {
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('START_GAME'), function(course, player) {
 			model.setGameInfo(course, player);
 			model.currentHole = 0;
 			model.publishCurrentHoleInfo();
 		});
 
 		
-		$.subscribe(GOLF_CONFIG .get('GO_TO_HOLE'), function(holeNumber) {
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('GO_TO_HOLE'), function(holeNumber) {
 			
 			model.currentHole = parseInt(holeNumber)-1;
 			console.info("current hole is: "+model.currentHole)
 			model.publishCurrentHoleInfo();
 		});
 
-		$.subscribe(GOLF_CONFIG .get('NEXT_HOLE'), function() {
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('NEXT_HOLE'), function() {
 			if(model.currentHole <17){
 				model.currentHole = model.currentHole + 1;
 				model.publishCurrentHoleInfo();
@@ -124,7 +144,7 @@ var GOLF_MODEL = (function (model) {
 
 		});
 
-		$.subscribe(GOLF_CONFIG .get('PREV_HOLE'), function() {
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('PREV_HOLE'), function() {
 			if(model.currentHole >0){
 				model.currentHole = model.currentHole - 1;
 				model.publishCurrentHoleInfo();
@@ -134,8 +154,12 @@ var GOLF_MODEL = (function (model) {
 
 		});
 
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('SUBMIT_HOLE'), function() {
+			model.publishCurrentHoleInfo();
+		});
 
-		$.subscribe(GOLF_CONFIG .get('UPDATE_HOLE'), function(hole) {
+
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG .get('UPDATE_HOLE'), function(hole) {
 			console.info("model update hole ", hole);
 			model.updateHoleInfo(hole);
 		});
@@ -147,18 +171,21 @@ var GOLF_MODEL = (function (model) {
 			// reset value first time
 			model.holes = [];
 			for(var i=0; i<18; i++){
-				model.holes[i] = new HoleInfo ();
+				model.holes[i] = new WEBCLOUZ.GOLF.HoleInfo ();
 				model.holes[i].number = (i+1);
 				model.holes[i].name = "Hole " +(i+1);
 				
 			}
-			model.summary = new GameSummary();
+			model.summary = new WEBCLOUZ.GOLF.GameSummary();
 		}	
 		console.info(model.holes);
 	};
 	model.publishCurrentHoleInfo = function () {
 		console.info("model publishCurrentHoleInfo", model.holes[model.currentHole]);
-		$.publish(GOLF_CONFIG.get('CURRENT_HOLE_INFO') , [model.holes[model.currentHole]]);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('CURRENT_HOLE_INFO') , [model.holes[model.currentHole]]);
+	};
+	model.publishSummaryInfo = function () {
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SUMMARY_INFO') , [model.summary]);
 	};
 	model.updateHoleInfo = function(hole){
 		
@@ -180,6 +207,7 @@ var GOLF_MODEL = (function (model) {
 		
 		if(hole.numToGreen >0 && model.holes[model.currentHole].numPutts > 0){
 			model.holes[model.currentHole].totalNum = parseInt(hole.numToGreen)+parseInt(hole.numPutts);
+			model.holes[model.currentHole].score =model.holes[model.currentHole].totalNum - parseInt( hole.par);
 			model.calSummary();
 		}
 
@@ -187,21 +215,72 @@ var GOLF_MODEL = (function (model) {
 		
 	};
 	model.calSummary = function(){
-		console.info("calculate summary");
+
+		model.summary.totalPar = 0;
+		model.summary.totalNum = 0;
+		model.summary.totalHolePlayed = 0;
+			
+		model.summary.totalPutts = 0;		
+		model.summary.totalDrive = 0;		
+		model.summary.total100Less = 0;		
+		
+		model.summary.totalPenaltyHoles = 0;
+		model.summary.fairwayHit = 0;
+		model.summary.made100ToGreen = 0;
+		
+		for(var i=0; i<18; i++){
+			if(model.holes[i].totalNum > 0){
+				model.summary.totalPar += parseInt(model.holes[i].par);
+				model.summary.totalHolePlayed ++;
+				model.summary.totalNum +=model.holes[i].totalNum ;
+				model.summary.totalPutts += parseInt(model.holes[i].numPutts);
+				
+				if(model.holes[i].drive == "S"){
+					model.summary.totalDrive ++;
+					model.summary.fairwayHit ++;
+				} else if (model.holes[i].drive == "L" || model.holes[i].drive == "R" ){
+					model.summary.totalDrive ++;
+				}
+				
+				if(model.holes[i].less100ToGreen == "S"){
+					model.summary.total100Less ++;
+					model.summary.made100ToGreen ++;
+				} else if (model.holes[i].less100ToGreen == "FS" || model.holes[i].less100ToGreen == "FO" ){
+					model.summary.total100Less ++;
+				}
+				
+				if(model.holes[i].penalties  == "Y"){
+					model.summary.totalPenaltyHoles ++;
+				}
+			}	
+		}
+
+		model.summary.score = model.summary.totalNum - model.summary.totalPar;
+		if(model.summary.totalDrive >0){
+			model.summary.aveFairwayHit =  (model.summary.fairwayHit/model.summary.totalDrive) *100;
+		}
+		if(model.summary.totalHolePlayed > 0){
+			model.summary.avePuts = model.summary.totalPutts/model.summary.totalHolePlayed ;
+			model.summary.ave100ToGreen = (model.summary.made100ToGreen/model.summary.totalHolePlayed ) *100;
+			model.summary.avePenalty = (model.summary.totalPenaltyHoles/model.summary.totalHolePlayed ) *100;	
+		}
+
+		console.info("calculate summary",model.summary );
+		model.publishSummaryInfo();
 	};
 	return model;
-}(GOLF_MODEL || {}));
+}(WEBCLOUZ.GOLF.MODEL || {}));
 
 
-GOLF_MODEL.init();
+WEBCLOUZ.GOLF.MODEL.init();
 
 
 /************************************************************** 
- * JavaScript module: GOLF_CONTROLER
+ * JavaScript module: WEBCLOU.GOLF.CONTROLER
  * Purpose: responsible for updating views
  * Of special note: loosed couple design, know nothing about model
  **************************************************************/ 
-var GOLF_CONTROLER = (function (controller) {
+WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 	
 	controller.init = function (){
 		console.info("golf controller init...");
@@ -210,14 +289,19 @@ var GOLF_CONTROLER = (function (controller) {
 		// subscribe all the topics
 		//
 		
-		$.subscribe(GOLF_CONFIG.get('CURRENT_HOLE_INFO'), function(hole) {
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG.get('CURRENT_HOLE_INFO'), function(hole) {
 			controller.displayHole(hole);
+		});
+				
+				
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG.get('SUMMARY_INFO'), function(summary) {
+			controller.displaySummary(summary);
 		});
 				
 		//
 		// bind letsPlay click event
 		//
-		$('#letsPlay').bind(GOLF_CONFIG.get('CLICK_ACTION'), function(){
+		$('#letsPlay').bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(){
 			console.info("letsPlay clicked");
 		
 			controller.startGame();
@@ -228,7 +312,7 @@ var GOLF_CONTROLER = (function (controller) {
 		// bind nextHole click event
 		//
 		
-		$('#nextHole').bind(GOLF_CONFIG.get('CLICK_ACTION'), function(){
+		$('#nextHole').bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(){
 			controller.requestNextHoleInfo();	
 		});
 						
@@ -236,19 +320,28 @@ var GOLF_CONTROLER = (function (controller) {
 		// bind prevHole click event
 		//
 		
-		$('#prevHole').bind(GOLF_CONFIG.get('CLICK_ACTION'), function(){
+		$('#prevHole').bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(){
 			controller.requestPrevHoleInfo();	
 		});
-						
+			
+									
+		// 		
+		// bind prevHole click event
+		//
+		
+		$('#submitHole').bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(){
+			controller.requestCurrentHoleInfo();	
+		});
+							
 		// 		
 		// bind holeLinks click event
 		//
 		
 		$('#holeLinks a').each(function(){
 			//console.info("find link", this);
-			$(this).bind(GOLF_CONFIG.get('CLICK_ACTION'), function(e){
+			$(this).bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(e){
 				 console.info("hole links clicked: ", e.target.id);
-				 $.publish(GOLF_CONFIG.get('GO_TO_HOLE') , [e.target.id]);
+				 $.publish(WEBCLOUZ.GOLF.CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
 		
@@ -259,9 +352,9 @@ var GOLF_CONTROLER = (function (controller) {
 				
 		$('#first9List li a').each(function(){
 			console.info("find first 9 link", this);
-			$(this).bind(GOLF_CONFIG.get('CLICK_ACTION'), function(e){
+			$(this).bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(e){
 				 console.info("hole links clicked: ", e.target);
-				 $.publish(GOLF_CONFIG.get('GO_TO_HOLE') , [e.target.id]);
+				 $.publish(WEBCLOUZ.GOLF.CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
 		
@@ -272,9 +365,9 @@ var GOLF_CONTROLER = (function (controller) {
 				
 		$('#back9List li a').each(function(){
 			console.info("find back9List link", this);
-			$(this).bind(GOLF_CONFIG.get('CLICK_ACTION'), function(e){
+			$(this).bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(e){
 				 console.info("hole links clicked: ", e.target);
-				 $.publish(GOLF_CONFIG.get('GO_TO_HOLE') , [e.target.id]);
+				 $.publish(WEBCLOUZ.GOLF.CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
 		
@@ -283,11 +376,11 @@ var GOLF_CONTROLER = (function (controller) {
 	controller.startGame = function () {
 		console.info("start game...");
 		var course = $('#course').val();
-		var player = new PlayerInfo();
+		var player = new WEBCLOUZ.GOLF.PlayerInfo();
 		player.name = $('#playername').val();
 		player.tee = $('input[name=tee-choice]:checked').val();
 		console.info("player: ", player);
-		$.publish(GOLF_CONFIG.get('START_GAME') , [course, player]);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('START_GAME') , [course, player]);
 	};
 	controller.displayHole = function (hole) {
 		console.info("controller display hole", hole);
@@ -296,7 +389,9 @@ var GOLF_CONTROLER = (function (controller) {
 		//
 		var imgString = 'images/h'+ hole.number  + '.png';
 		$("#holeImg").attr("src", imgString);
-				
+			
+		$('#holeScore').val(hole.score);
+		$('#holeTotal').val(hole.totalNum);	
 		//
 		// set par field
 		//
@@ -498,24 +593,34 @@ var GOLF_CONTROLER = (function (controller) {
 		}
 		$('input[name=penalties-choice]').checkboxradio("refresh");
 		
-		
+		//
+		// display first 9 and back 9 info
+		//
+		console.info("display first and back 9 info.................................................");
 	};
-	
+	controller.displaySummary = function(summary){
+		//
+		// display summary info
+		//
+		console.info("display summary info.................................................");
+	};
 	controller.requestNextHoleInfo = function(){
 		console.info("controller requestNextHoleInfo " );
 		controller.updateCurrentHole();
-		$.publish(GOLF_CONFIG.get('NEXT_HOLE') , []);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('NEXT_HOLE') , []);
 	};
-	
 	controller.requestPrevHoleInfo = function(){
 		console.info("controller requestPrevHoleInfo " );
 		controller.updateCurrentHole();
-		$.publish(GOLF_CONFIG.get('PREV_HOLE') , []);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('PREV_HOLE') , []);
 	};
-	
+	controller.requestCurrentHoleInfo = function(){
+		controller.updateCurrentHole();
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SUBMIT_HOLE') , []);
+	};
 	controller.updateCurrentHole = function(){
 		console.info("controller requestNextHoleInfo " );
-		var hole = new HoleInfo ();
+		var hole = new WEBCLOUZ.GOLF.HoleInfo ();
 		// fill in the hole info from screen
 		hole.par = $('input[name=par-choice]:checked').val();
 		hole.drive =  $('input[name=drive-choice]:checked').val();
@@ -524,13 +629,13 @@ var GOLF_CONTROLER = (function (controller) {
 		hole.less100ToGreen=  $('input[name=100-to-green-choice]:checked').val();
 		//hole.penalties = $('#penalties').val();
 		hole.penalties = $('input[name=penalties-choice]:checked').val();
-		$.publish(GOLF_CONFIG.get('UPDATE_HOLE') , [hole]);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('UPDATE_HOLE') , [hole]);
 	};
 	return controller;
-}(GOLF_CONTROLER || {}));
+}(WEBCLOUZ.GOLF.CONTROLER || {}));
 
 
-GOLF_CONTROLER.init();
+WEBCLOUZ.GOLF.CONTROLER.init();
 
 
 
