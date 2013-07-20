@@ -183,7 +183,7 @@
 					<fieldset data-role="controlgroup" data-type="horizontal" >
 					    <legend>100 or less to green: </legend>	 
 					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-s" value="S"  />
-					    <label for="100-to-green-choice-s">Success</label>
+					    <label for="100-to-green-choice-s">OK</label>
 					    					    
 					    <input type="radio" name="100-to-green-choice" id="100-to-green-choice-fs" value="FS"  />
 					    <label for="100-to-green-choice-fs">Fail (Sand)</label>
@@ -224,11 +224,11 @@
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">
 					
-					<a data-role="button" data-icon="arrow-l" id="prevHole">Previous Hole</a>		
+					<a data-role="button" data-icon="arrow-l" id="prevHole">Previous</a>		
 			
 					<a data-role="button" data-icon="star" id="submitHole">Submit</a>		
 			
-					<a data-role="button" data-icon="arrow-r" id="nextHole">Next Hole</a>		
+					<a data-role="button" data-icon="arrow-r" id="nextHole">Next</a>		
 				
 				</div>			
 			</center>
@@ -259,6 +259,7 @@
 	<div data-role="page" id="first9Page">
 		
 		<div data-role="header" data-theme="b">
+			<a href="#menu"	data-role="button"	deata-rel="popup"	>Go To Hole</a>
 			<div><h1>First 9 Hole Scores</h1></div>		
 		</div>
 		
@@ -266,56 +267,101 @@
 			<ul id="first9List" data-role="listview" data-inset="true">
 			    <li>
 			        <a  href="#framePlay" id="1" data-transition="none">
-			            Hole 1
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F1.jpg"   class="ui-li-icon">
+			           
+			           
+			            <span id="1HoleTotal"></span>
+			            <span class="ui-li-count" id="1HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="2" data-transition="none">
-			            Hole 2
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F2.jpg"  class="ui-li-icon">
+			           
+			            
+			            <span id="2HoleTotal"></span>
+			            <span class="ui-li-count" id="2HolePar">0</span>
+			            
 			        </a>
 			    </li>	    
 			    <li>
 			        <a  href="#framePlay" id="3" data-transition="none">
-			            Hole 3
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F3.jpg"  class="ui-li-icon">
+			           
+			           
+			            <span id="3HoleTotal"></span>
+			            <span class="ui-li-count" id="3HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="4" data-transition="none">
-			            Hole 4
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F4.jpg"  class="ui-li-icon">
+			           
+			            
+			            <span id="4HoleTotal"></span>
+			            <span class="ui-li-count" id="4HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="5" data-transition="none">
-			            Hole 5
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F5.jpg"  class="ui-li-icon">
+			           
+			            
+			            <span id="5HoleTotal"></span>
+			            <span class="ui-li-count" id="5HolePar">0</span>
+			            
 			        </a>
 			    </li>			    
 			    <li>
 			        <a  href="#framePlay" id="6" data-transition="none">
-			            Hole 6
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F6.jpg"  class="ui-li-icon">
+			           
+			            
+			            <span id="6HoleTotal"></span>
+			            <span class="ui-li-count" id="6HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="7" data-transition="none">
-			            Hole 7
-			            <span class="ui-li-count">0</span>
+			          	
+			            <img src="images/F7.jpg"  class="ui-li-icon">
+			           
+			            
+			            <span id="7HoleTotal"></span>
+			            <span class="ui-li-count" id="7HolePar">0</span>
+			            
 			        </a>
 			    </li>		     
 			    <li>
 			        <a  href="#framePlay" id="8" data-transition="none">
-			            Hole 8
-			            <span class="ui-li-count">0</span>
+			         	
+			            <img src="images/F8.jpg"   class="ui-li-icon">
+			           
+			            
+			            <span id="8HoleTotal"></span>
+			            <span class="ui-li-count" id="8HolePar">0</span>
+			            
 			        </a>
 			    </li>			    
 			    <li>
 			        <a  href="#framePlay" id="9" data-transition="none">
-			            Hole 9
-			            <span class="ui-li-count">0</span>
+			           	
+			            <img src="images/F9.jpg"   class="ui-li-icon">
+			           
+			            
+			            <span id="9HoleTotal"></span>
+			            <span class="ui-li-count" id="9HolePar">0</span>
+			            
 			        </a>
 			    </li>			    
 			</ul>			
@@ -333,6 +379,7 @@
 		
 	<div data-role="page" id="back9Page">	
 		<div data-role="header" data-theme="b">
+			<a href="#menu"	data-role="button"	deata-rel="popup"	>Go To Hole</a>
 			<div><h1>Back 9 Hole Scores</h1></div>		
 		</div>
 		
@@ -340,56 +387,93 @@
 			<ul id="back9List" data-role="listview" data-inset="true">
 			    <li>
 			        <a  href="#framePlay" id="10" data-transition="none">
-			            Hole 10
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F10.jpg"   class="ui-li-icon">
+			           
+			            
+			            <span id="10HoleTotal"></span>
+			            <span class="ui-li-count" id="10HolePar">0</span>
+			            
 			        </a>
 			    </li>			    
 			    <li>
 			        <a  href="#framePlay" id="11" data-transition="none">
-			            Hole 11
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F11.jpg"   class="ui-li-icon">
+			        
+			            <span id="11HoleTotal"></span>
+			            <span class="ui-li-count" id="11HolePar">0</span>
+			            
 			        </a>
 			    </li>			    
 			    <li>
 			        <a  href="#framePlay" id="12" data-transition="none">
-			            Hole 12
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F12.jpg"   class="ui-li-icon">
+			            
+			            <span id="12HoleTotal"></span>
+			            <span class="ui-li-count" id="12HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="13" data-transition="none">
-			            Hole 13
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F13.jpg"   class="ui-li-icon">
+			            
+			            <span id="13HoleTotal"></span>
+			            <span class="ui-li-count" id="13HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="14" data-transition="none">
-			            Hole 14
-			            <span class="ui-li-count">0</span>
+			           	
+			            <img src="images/F14.jpg"   class="ui-li-icon">
+			            
+			            <span id="14HoleTotal"></span>
+			            <span class="ui-li-count" id="14HolePar">0</span>
+			            
 			        </a>
 			    </li>	    
 			    <li>
 			        <a  href="#framePlay" id="15" data-transition="none">
-			            Hole 15
-			            <span class="ui-li-count">0</span>
+			            	
+			            <img src="images/F15.jpg"   class="ui-li-icon">
+			            
+			            <span id="15HoleTotal"></span>
+			            <span class="ui-li-count" id="15HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="16" data-transition="none">
-			            Hole 16
-			            <span class="ui-li-count">0</span>
+			        	
+			            <img src="images/F16.jpg"   class="ui-li-icon">
+			            
+			            <span id="16HoleTotal"></span>
+			            <span class="ui-li-count" id="16HolePar">0</span>
+			            
 			        </a>
 			    </li>     
 			    <li>
 			        <a  href="#framePlay" id="17" data-transition="none">
-			            Hole 17
-			            <span class="ui-li-count">0</span>
+			         	
+			            <img src="images/F17.jpg"   class="ui-li-icon">
+			            
+			            <span id="17HoleTotal"></span>
+			            <span class="ui-li-count" id="17HolePar">0</span>
+			            
 			        </a>
 			    </li>		    
 			    <li>
 			        <a  href="#framePlay" id="18" data-transition="none">
-			            Hole 18
-			            <span class="ui-li-count">0</span>
+			           	
+			            <img src="images/F18.jpg"  class="ui-li-icon">
+			            
+			            <span id="18HoleTotal"></span>
+			            <span class="ui-li-count" id="18HolePar">0</span>
+			            
 			        </a>
 			    </li>    
 			</ul>	

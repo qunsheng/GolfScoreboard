@@ -597,6 +597,8 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		// display first 9 and back 9 info
 		//
 		console.info("display first and back 9 info.................................................");
+		$("#"+ hole.number+"HoleTotal").html(hole.totalNum);
+		$("#"+ hole.number+"HolePar").html(hole.par);
 	};
 	controller.displaySummary = function(summary){
 		//
