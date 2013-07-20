@@ -52,58 +52,58 @@
 	<div id="menu" data-role="popup">
 		<center>
 			<div id="holeLinks" data-role="fieldcontain">				
-				<a href="#framePlay" >	
+				<a href="#framePlay" data-transition="none" >	
 					<img class="ball" src="images/h1.png" id="1">					
 				</a>
-				<a href="#framePlay">
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h2.png"  id="2">			
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none" >
 					<img class="ball" src="images/h3.png" id="3">							 
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h4.png" id="4">
 				</a>
-				<a href="#framePlay">
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h5.png" id="5">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h6.png" id="6">
 				</a>
-				<a href="#framePlay">
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h7.png" id="7" >
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h8.png" id="8">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h9.png" id="9">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h10.png" id="10">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h11.png" id="11">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h12.png" id="12">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h13.png" id="13">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h14.png" id="14">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h15.png" id="15" >
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h16.png" id="16">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h17.png" id="17">
 				</a>
-				<a href="#framePlay" >
+				<a href="#framePlay" data-transition="none">
 					<img class="ball" src="images/h18.png" id="18">
 				</a>
 			</div>
@@ -192,29 +192,56 @@
 					    <label for="100-to-green-choice-fo">Fail (Other)</label>
 					    
 					</fieldset>						
-					
+					<!--
 				    <label for="penalties">Penalties:</label>
 				    <select name="penalties" id="penalties" data-role="slider">			        
 				        <option value="N">No</option>
 				        <option value="Y">Yes</option>
 				    </select>
-			</div>
-		</div>
-		
-		<div  data-role="footer" data-theme="b">
+				   -->
+				   
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+					    <legend>Penalties: </legend>	
+					     
+					    <input type="radio" name="penalties-choice" id="penalties-choice-y" value="Y"  />
+					    <label for="penalties-choice-y">Yes</label>
+					    		
+					    <input type="radio" name="penalties-choice" id="penalties-choice-n" value="N" checked="checked"  />
+					    <label for="penalties-choice-n">No</label>
+					    		
+					</fieldset>		
+					
+					<br><br>
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">
 					
-					<a data-role="button" data-icon="star" id="first9" href="#first9Page" data-transition="none">First 9</a>					
-					
-					<a data-role="button" data-icon="star" id="back9" href="#back9Page" data-transition="none">Back 9</a>					
-					
-					<a data-role="button" data-icon="grid" id="summary" href="#summaryPage" data-transition="none">Summary</a>					
-					
+					<a data-role="button" data-icon="arrow-l" id="prevHole">Previous Hole</a>		
+			
 					<a data-role="button" data-icon="arrow-r" id="nextHole">Next Hole</a>		
 				
 				</div>			
 			</center>
+			</div>
+		</div>
+		
+		<div  data-role="footer" data-theme="b">
+			
+			<center>		
+				<div data-role="controlgroup" data-type="horizontal">
+					<!--
+					<a data-role="button" data-icon="arrow-l" id="prevHole">Previous Hole</a>		
+				-->
+					<a data-role="button" data-icon="star" id="first9PlayPage" href="#first9Page" data-transition="none">First 9</a>					
+					
+					<a data-role="button" data-icon="star" id="back9PlayPage" href="#back9Page" data-transition="none">Back 9</a>					
+					
+					<a data-role="button" data-icon="grid" id="summaryPlayPage" href="#summaryPage" data-transition="none">Summary</a>					
+					<!--
+					<a data-role="button" data-icon="arrow-r" id="nextHole">Next Hole</a>		
+				-->
+				</div>			
+			</center>
+			
 		</div>			
 	</div>
 
@@ -227,55 +254,55 @@
 		<div data-role="content">				
 			<ul id="first9List" data-role="listview" data-inset="true">
 			    <li>
-			        <a  href="#framePlay" id="1">
+			        <a  href="#framePlay" id="1" data-transition="none">
 			            Hole 1
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="2">
+			        <a  href="#framePlay" id="2" data-transition="none">
 			            Hole 2
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>	    
 			    <li>
-			        <a  href="#framePlay" id="3">
+			        <a  href="#framePlay" id="3" data-transition="none">
 			            Hole 3
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="4">
+			        <a  href="#framePlay" id="4" data-transition="none">
 			            Hole 4
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="5">
+			        <a  href="#framePlay" id="5" data-transition="none">
 			            Hole 5
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>			    
 			    <li>
-			        <a  href="#framePlay" id="6">
+			        <a  href="#framePlay" id="6" data-transition="none">
 			            Hole 6
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="7">
+			        <a  href="#framePlay" id="7" data-transition="none">
 			            Hole 7
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		     
 			    <li>
-			        <a  href="#framePlay" id="8">
+			        <a  href="#framePlay" id="8" data-transition="none">
 			            Hole 8
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>			    
 			    <li>
-			        <a  href="#framePlay" id="9">
+			        <a  href="#framePlay" id="9" data-transition="none">
 			            Hole 9
 			            <span class="ui-li-count">0</span>
 			        </a>
@@ -286,8 +313,8 @@
 		<div  data-role="footer" data-theme="b">
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">				
-					<a data-role="button" data-icon="star" id="back9" href="#back9Page" data-transition="none">Back 9</a>									
-					<a data-role="button" data-icon="grid" id="summary" href="#summaryPage" data-transition="none">Summary</a>										
+					<a data-role="button" data-icon="star" id="back9First9Page" href="#back9Page" data-transition="none">Back 9</a>									
+					<a data-role="button" data-icon="grid" id="summaryFirst9Page" href="#summaryPage" data-transition="none">Summary</a>										
 				</div>			
 			</center>
 		</div>			
@@ -299,57 +326,57 @@
 		</div>
 		
 		<div data-role="content">					
-			<ul id="first9List" data-role="listview" data-inset="true">
+			<ul id="back9List" data-role="listview" data-inset="true">
 			    <li>
-			        <a  href="#framePlay" id="10">
+			        <a  href="#framePlay" id="10" data-transition="none">
 			            Hole 10
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>			    
 			    <li>
-			        <a  href="#framePlay" id="11">
+			        <a  href="#framePlay" id="11" data-transition="none">
 			            Hole 11
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>			    
 			    <li>
-			        <a  href="#framePlay" id="12">
+			        <a  href="#framePlay" id="12" data-transition="none">
 			            Hole 12
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="13">
+			        <a  href="#framePlay" id="13" data-transition="none">
 			            Hole 13
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="14">
+			        <a  href="#framePlay" id="14" data-transition="none">
 			            Hole 14
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>	    
 			    <li>
-			        <a  href="#framePlay" id="15">
+			        <a  href="#framePlay" id="15" data-transition="none">
 			            Hole 15
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="16">
+			        <a  href="#framePlay" id="16" data-transition="none">
 			            Hole 16
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>     
 			    <li>
-			        <a  href="#framePlay" id="17">
+			        <a  href="#framePlay" id="17" data-transition="none">
 			            Hole 17
 			            <span class="ui-li-count">0</span>
 			        </a>
 			    </li>		    
 			    <li>
-			        <a  href="#framePlay" id="18">
+			        <a  href="#framePlay" id="18" data-transition="none">
 			            Hole 18
 			            <span class="ui-li-count">0</span>
 			        </a>
@@ -360,8 +387,8 @@
 		<div  data-role="footer" data-theme="b">
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">				
-					<a data-role="button" data-icon="star" id="first9" href="#first9Page" data-transition="none">First 9</a>					
-					<a data-role="button" data-icon="grid" id="summary" href="#summaryPage" data-transition="none">Summary</a>								
+					<a data-role="button" data-icon="star" id="first9Back9Page" href="#first9Page" data-transition="none">First 9</a>					
+					<a data-role="button" data-icon="grid" id="summaryBack9Page" href="#summaryPage" data-transition="none">Summary</a>								
 				</div>			
 			</center>
 		</div>			
@@ -406,8 +433,8 @@
 		<div  data-role="footer" data-theme="b">
 			<center>		
 				<div data-role="controlgroup" data-type="horizontal">
-					<a data-role="button" data-icon="star" id="first9" href="#first9Page" data-transition="none">First 9</a>									
-					<a data-role="button" data-icon="star" id="back9" href="#back9Page" data-transition="none">Back 9</a>								
+					<a data-role="button" data-icon="star" id="first9SummaryPage" href="#first9Page" data-transition="none">First 9</a>									
+					<a data-role="button" data-icon="star" id="back9SummaryPage" href="#back9Page" data-transition="none">Back 9</a>								
 				</div>			
 			</center>
 		</div>			
