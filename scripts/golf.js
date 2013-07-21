@@ -47,11 +47,11 @@ WEBCLOUZ.GOLF.HoleInfo = function () {
 
     this.name = ' ';
     this.number = 0;
-    this.par = '-1';
-    this.drive = ' ';
-    this.numToGreen = '-1';
-    this.numPutts = '-1';
-    this.less100ToGreen = null;
+    this.par = '4';
+    this.drive = 'F';
+    this.numToGreen = '2';
+    this.numPutts = '2';
+    this.less100ToGreen = 'N';
     this.penalties = 'N';
     this.totalNum = 0; // if totalNum > 0, then this hole is played
     this.score = 0;
@@ -79,9 +79,9 @@ WEBCLOUZ.GOLF.GameSummary = function () {
     this.made100ToGreen = 0;
     
     this.score = 0; // totalNum - totalPar
-    this.aveFairwayHit = 0; // fairwayHit/totalDrive
+    this.aveFairwayHit = 100; // fairwayHit/totalDrive
     this.avePuts = 0; // totalPutts/totalHolePlayed
-    this.ave100ToGreen = 0; // made100ToGreen/total100Less
+    this.ave100ToGreen = 100; // made100ToGreen/total100Less
     this.avePenalty = 0; // totalPenaltyHoles/totalHolePlayed
 
     return this;
@@ -92,13 +92,10 @@ WEBCLOUZ.GOLF.GameSummary = function () {
  * Purpose: save golf hole information
  **************************************************************/ 
 WEBCLOUZ.GOLF.PlayerInfo = function () {
-
     this.name = ' ';
     this.tee = ' ';
-
     return this;
 };
-
 
 /************************************************************** 
  * JavaScript module WEBCLOUZ.GOLF.MODEL
@@ -185,6 +182,7 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('CURRENT_HOLE_INFO') , [model.holes[model.currentHole]]);
 	};
 	model.publishSummaryInfo = function () {
+		console.info("publish summary info");
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SUMMARY_INFO') , [model.summary]);
 	};
 	model.updateHoleInfo = function(hole){
@@ -205,17 +203,16 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 		
 		model.holes[model.currentHole].par = hole.par;
 		
-		if(hole.numToGreen >0 && model.holes[model.currentHole].numPutts > 0){
-			model.holes[model.currentHole].totalNum = parseInt(hole.numToGreen)+parseInt(hole.numPutts);
-			model.holes[model.currentHole].score =model.holes[model.currentHole].totalNum - parseInt( hole.par);
-			model.calSummary();
-		}
+		model.holes[model.currentHole].totalNum = parseInt(hole.numToGreen)+parseInt(hole.numPutts);
+		model.holes[model.currentHole].score =model.holes[model.currentHole].totalNum - parseInt( hole.par);
+		model.calSummary();
 
 		console.info("model updae hole info:",model.holes[model.currentHole]);
 		
 	};
 	model.calSummary = function(){
 
+		console.info("================ calculate summary" );
 		model.summary.totalPar = 0;
 		model.summary.totalNum = 0;
 		model.summary.totalHolePlayed = 0;
@@ -261,11 +258,16 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 		}
 		if(model.summary.totalHolePlayed > 0){
 			model.summary.avePuts = model.summary.totalPutts/model.summary.totalHolePlayed ;
-			model.summary.ave100ToGreen = (model.summary.made100ToGreen/model.summary.totalHolePlayed ) *100;
+			
 			model.summary.avePenalty = (model.summary.totalPenaltyHoles/model.summary.totalHolePlayed ) *100;	
 		}
+		if(model.summary.total100Less > 0){
+			model.summary.ave100ToGreen = (model.summary.made100ToGreen/model.summary.total100Less ) *100;
+		}else {
+			model.summary.ave100ToGreen =100;
+		}
 
-		console.info("calculate summary",model.summary );
+		console.info("================ calculate summary",model.summary );
 		model.publishSummaryInfo();
 	};
 	return model;
@@ -389,17 +391,19 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		//
 		var imgString = 'images/h'+ hole.number  + '.png';
 		$("#holeImg").attr("src", imgString);
+		
+		var scoreString = null;
+		if(parseInt(hole.score) <= 0)	{
+			scoreString = " + "+hole.score;
+		} else {
+			scoreString = " - "+hole.score;
+		}
+		$('#holeScore').text(scoreString);
+		$('#holeTotal').text(hole.totalNum);
 			
-		$('#holeScore').val(hole.score);
-		$('#holeTotal').val(hole.totalNum);	
 		//
 		// set par field
 		//
-		
-		$('#par-choice-3').attr("checked", false).checkboxradio("refresh");			
-		$('#par-choice-4').attr("checked", false).checkboxradio("refresh");			
-		$('#par-choice-5').attr("checked", false).checkboxradio("refresh");			
-		$('#par-choice-6').attr("checked", false).checkboxradio("refresh");
 
 		switch(hole.par){
 			
@@ -418,20 +422,12 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			case "6":
 				$('input[name=par-choice]').filter('[value="6"]').next().click();
 			break;
-			
-	
-		}
-		$('input[name=par-choice]').checkboxradio("refresh");
-		
-		
+
+		}	
 				
 		//
 		// set drive field
 		//
-		
-		$('#drive-choice-fairway').attr("checked", false).checkboxradio("refresh");			
-		$('#drive-choice-left').attr("checked", false).checkboxradio("refresh");			
-		$('#drive-choice-right').attr("checked", false).checkboxradio("refresh");			
 
 		switch(hole.drive){
 			
@@ -448,22 +444,11 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			break;
 
 		}
-		$('input[name=drive-choice]').checkboxradio("refresh");
-		
-		
+
 						
 		//
 		// set strokes to green field
 		//
-		
-		$('#to-green-choice-1').attr("checked", false).checkboxradio("refresh");			
-		$('#to-green-choice-2').attr("checked", false).checkboxradio("refresh");			
-		$('#to-green-choice-3').attr("checked", false).checkboxradio("refresh");			
-		$('#to-green-choice-4').attr("checked", false).checkboxradio("refresh");
-
-		$('#to-green-choice-5').attr("checked", false).checkboxradio("refresh");			
-		$('#to-green-choice-6').attr("checked", false).checkboxradio("refresh");			
-
 
 		switch(hole.numToGreen){
 						
@@ -489,28 +474,12 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			
 			case "6":
 				$('input[name=to-green-choice]').filter('[value="6"]').next().click();
-			break;
-			
-	
+			break;	
 		}
-		$('input[name=to-green-choice]').checkboxradio("refresh");
-		
-		
-	
-						
+			
 		//
 		// set putts field
 		//
-				
-		$('#putts-choice-0').attr("checked", false).checkboxradio("refresh");	
-		$('#putts-choice-1').attr("checked", false).checkboxradio("refresh");			
-		$('#putts-choice-2').attr("checked", false).checkboxradio("refresh");			
-		$('#putts-choice-3').attr("checked", false).checkboxradio("refresh");			
-		$('#putts-choice-4').attr("checked", false).checkboxradio("refresh");
-
-		$('#putts-choice-5').attr("checked", false).checkboxradio("refresh");			
-		$('#putts-choice-6').attr("checked", false).checkboxradio("refresh");			
-
 
 		switch(hole.numPutts){
 										
@@ -541,21 +510,18 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			case "6":
 				$('input[name=putts-choice]').filter('[value="6"]').next().click();
 			break;
-			
-	
 		}
-		$('input[name=putts-choice]').checkboxradio("refresh");
-				
+			
 				
 		//
 		// set less100ToGreen field
 		//
-		
-		$('#100-to-green-choice-s').attr("checked", false).checkboxradio("refresh");			
-		$('#100-to-green-choice-fs').attr("checked", false).checkboxradio("refresh");			
-		$('#100-to-green-choice-fo').attr("checked", false).checkboxradio("refresh");			
 
 		switch(hole.less100ToGreen){
+			
+			case "N":
+				$('input[name=100-to-green-choice]').filter('[value="N"]').next().click();
+			break;
 			
 			case "S":
 				$('input[name=100-to-green-choice]').filter('[value="S"]').next().click();
@@ -570,18 +536,12 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			break;
 
 		}
-		$('input[name=100-to-green-choice]').checkboxradio("refresh");
-		
 						
 		//
 		// set penalties field
 		//
-		
-		$('#penalties-choice-y').attr("checked", false).checkboxradio("refresh");			
-		$('#penalties-choice-n').attr("checked", false).checkboxradio("refresh");			
-		
-		switch(hole.penalties){
-			
+
+		switch(hole.penalties){		
 			case "Y":
 				$('input[name=penalties-choice]').filter('[value="Y"]').next().click();
 			break;
@@ -589,14 +549,12 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			case "N":
 				$('input[name=penalties-choice]').filter('[value="N"]').next().click();
 			break;
-		
 		}
-		$('input[name=penalties-choice]').checkboxradio("refresh");
-		
+
 		//
 		// display first 9 and back 9 info
 		//
-		console.info("display first and back 9 info.................................................");
+		
 		$("#"+ hole.number+"HoleTotal").html(hole.totalNum);
 		$("#"+ hole.number+"HolePar").html(hole.par);
 	};
@@ -604,7 +562,15 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		//
 		// display summary info
 		//
-		console.info("display summary info.................................................");
+		$("#totalHolePlayedSum").html(summary.totalHolePlayed);
+		$("#totalParSum").html(summary.totalPar);
+		$("#totalNumSum").html(summary.totalNum);
+		$("#scoreSum").html(summary.score);
+		$("#totalPuttsSum").html(summary.totalPutts);	
+		$("#avePutsSum").html(summary.avePuts);	
+		$("#aveFairwayHitSum").html("%" + summary.aveFairwayHit);		
+		$("#ave100ToGreenSum").html("%" + summary.ave100ToGreen  );		
+		$("#avePenaltySum").html("%" + summary.avePenalty);
 	};
 	controller.requestNextHoleInfo = function(){
 		console.info("controller requestNextHoleInfo " );
@@ -636,8 +602,4 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 	return controller;
 }(WEBCLOUZ.GOLF.CONTROLER || {}));
 
-
 WEBCLOUZ.GOLF.CONTROLER.init();
-
-
-

@@ -1,5 +1,9 @@
 h1 {
 	font-size:large;
+	text-align:left;
+}
+h2 {
+	font-size:large;
 	text-align:center;
 }
 body {
