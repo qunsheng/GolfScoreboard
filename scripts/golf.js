@@ -27,6 +27,7 @@ WEBCLOUZ.GOLF.CONFIG = (function(config) {
 		//
 		'CURRENT_HOLE_INFO': 'currentHoleInfo',
 		'SUMMARY_INFO': 'summaryInfo',
+		'SCORE_CARD_INFO': 'scoreCardInfo',
 		// event actions
 		'CLICK_ACTION': 'click'
 	};
@@ -181,6 +182,10 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 		console.info("model publishCurrentHoleInfo", model.holes[model.currentHole]);
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('CURRENT_HOLE_INFO') , [model.holes[model.currentHole]]);
 	};
+	model.publishScoreCardInfo = function(hole){
+		console.info("model publishScoreCardInfo", hole);
+		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SCORE_CARD_INFO') , [hole]);
+	};
 	model.publishSummaryInfo = function () {
 		console.info("publish summary info");
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SUMMARY_INFO') , [model.summary]);
@@ -188,26 +193,32 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 	model.updateHoleInfo = function(hole){
 		
 		console.info("model updae hole info:",hole);
+		var holeNumber = parseInt(hole.number);
 		
-		model.holes[model.currentHole].par = hole.par;
+		console.info("model updae hole info:"+holeNumber);
+		var currentIndex = holeNumber -1;
 		
-		model.holes[model.currentHole].drive = hole.drive;
+		model.holes[currentIndex].par = hole.par;
 		
-		model.holes[model.currentHole].numToGreen = hole.numToGreen;
+		model.holes[currentIndex].drive = hole.drive;
 		
-		model.holes[model.currentHole].numPutts = hole.numPutts;
+		model.holes[currentIndex].numToGreen = hole.numToGreen;
 		
-		model.holes[model.currentHole].less100ToGreen = hole.less100ToGreen;
+		model.holes[currentIndex].numPutts = hole.numPutts;
 		
-		model.holes[model.currentHole].penalties = hole.penalties;
+		model.holes[currentIndex].less100ToGreen = hole.less100ToGreen;
 		
-		model.holes[model.currentHole].par = hole.par;
+		model.holes[currentIndex].penalties = hole.penalties;
 		
-		model.holes[model.currentHole].totalNum = parseInt(hole.numToGreen)+parseInt(hole.numPutts);
-		model.holes[model.currentHole].score =model.holes[model.currentHole].totalNum - parseInt( hole.par);
+		model.holes[currentIndex].par = hole.par;
+		
+		model.holes[currentIndex].totalNum = parseInt(hole.numToGreen)+parseInt(hole.numPutts);
+		model.holes[currentIndex].score =model.holes[model.currentHole].totalNum - parseInt( hole.par);
+		
+		console.info("model updae hole info:",model.holes[currentIndex]);
+		model.publishScoreCardInfo(model.holes[currentIndex]);
 		model.calSummary();
 
-		console.info("model updae hole info:",model.holes[model.currentHole]);
 		
 	};
 	model.calSummary = function(){
@@ -226,7 +237,9 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 		model.summary.made100ToGreen = 0;
 		
 		for(var i=0; i<18; i++){
+			console.info("check hole : "+i+ " based on totalNum: "+ model.holes[i].totalNum );
 			if(model.holes[i].totalNum > 0){
+				console.info("hole played: "+i);
 				model.summary.totalPar += parseInt(model.holes[i].par);
 				model.summary.totalHolePlayed ++;
 				model.summary.totalNum +=model.holes[i].totalNum ;
@@ -267,7 +280,7 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 			model.summary.ave100ToGreen =100;
 		}
 
-		console.info("================ calculate summary",model.summary );
+		console.info("calculate summary",model.summary );
 		model.publishSummaryInfo();
 	};
 	return model;
@@ -294,12 +307,15 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		$.subscribe(WEBCLOUZ.GOLF.CONFIG.get('CURRENT_HOLE_INFO'), function(hole) {
 			controller.displayHole(hole);
 		});
-				
-				
+							
 		$.subscribe(WEBCLOUZ.GOLF.CONFIG.get('SUMMARY_INFO'), function(summary) {
 			controller.displaySummary(summary);
 		});
 				
+		$.subscribe(WEBCLOUZ.GOLF.CONFIG.get('SCORE_CARD_INFO'), function(hole) {
+			controller.displayScoreCard(hole);
+		});
+			
 		//
 		// bind letsPlay click event
 		//
@@ -328,7 +344,7 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			
 									
 		// 		
-		// bind prevHole click event
+		// bind submitHole click event
 		//
 		
 		$('#submitHole').bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(){
@@ -342,7 +358,7 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		$('#holeLinks a').each(function(){
 			//console.info("find link", this);
 			$(this).bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(e){
-				 console.info("hole links clicked: ", e.target.id);
+				 //console.info("hole links clicked: ", e.target.id);
 				 $.publish(WEBCLOUZ.GOLF.CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
@@ -353,9 +369,9 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		//
 				
 		$('#first9List li a').each(function(){
-			console.info("find first 9 link", this);
+			//console.info("find first 9 link", this);
 			$(this).bind(WEBCLOUZ.GOLF.CONFIG.get('CLICK_ACTION'), function(e){
-				 console.info("hole links clicked: ", e.target);
+				 //console.info("hole links clicked: ", e.target);
 				 $.publish(WEBCLOUZ.GOLF.CONFIG.get('GO_TO_HOLE') , [e.target.id]);
 			});
 		});
@@ -386,6 +402,7 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 	};
 	controller.displayHole = function (hole) {
 		console.info("controller display hole", hole);
+		$("#currentHoleNumber").val(hole.number);
 		//
 		// set img
 		//
@@ -551,6 +568,9 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 			break;
 		}
 
+
+	};
+	controller.displayScoreCard= function(hole){
 		//
 		// display first 9 and back 9 info
 		//
@@ -587,9 +607,12 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('SUBMIT_HOLE') , []);
 	};
 	controller.updateCurrentHole = function(){
-		console.info("controller requestNextHoleInfo " );
+		//console.info("controller updateCurrentHole... " );
 		var hole = new WEBCLOUZ.GOLF.HoleInfo ();
+		
 		// fill in the hole info from screen
+		hole.number = $("#currentHoleNumber").val();
+		
 		hole.par = $('input[name=par-choice]:checked').val();
 		hole.drive =  $('input[name=drive-choice]:checked').val();
 		hole.numToGreen =  $('input[name=to-green-choice]:checked').val();
@@ -597,6 +620,8 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		hole.less100ToGreen=  $('input[name=100-to-green-choice]:checked').val();
 		//hole.penalties = $('#penalties').val();
 		hole.penalties = $('input[name=penalties-choice]:checked').val();
+		
+		console.info("controller updateCurrentHole", hole );
 		$.publish(WEBCLOUZ.GOLF.CONFIG.get('UPDATE_HOLE') , [hole]);
 	};
 	return controller;
