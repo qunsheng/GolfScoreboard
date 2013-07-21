@@ -223,7 +223,7 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 	};
 	model.calSummary = function(){
 
-		console.info("================ calculate summary" );
+		//console.info("calculate summary" );
 		model.summary.totalPar = 0;
 		model.summary.totalNum = 0;
 		model.summary.totalHolePlayed = 0;
@@ -410,7 +410,7 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		$("#holeImg").attr("src", imgString);
 		
 		var scoreString = null;
-		if(parseInt(hole.score) <= 0)	{
+		if(parseInt(hole.score) >= 0)	{
 			scoreString = " + "+hole.score;
 		} else {
 			scoreString = " - "+hole.score;
@@ -575,7 +575,15 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		// display first 9 and back 9 info
 		//
 		
-		$("#"+ hole.number+"HoleTotal").html(hole.totalNum);
+		var scoreString = "" + hole.totalNum + " ( ";
+		if(parseInt(hole.score) >= 0)	{
+			scoreString += " + "+hole.score;
+		} else {
+			scoreString += " - "+hole.score;
+		}
+		scoreString += " ) ";
+			
+		$("#"+ hole.number+"HoleTotal").html(scoreString );
 		$("#"+ hole.number+"HolePar").html(hole.par);
 	};
 	controller.displaySummary = function(summary){
@@ -585,7 +593,13 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 		$("#totalHolePlayedSum").html(summary.totalHolePlayed);
 		$("#totalParSum").html(summary.totalPar);
 		$("#totalNumSum").html(summary.totalNum);
-		$("#scoreSum").html(summary.score);
+		var scoreString = null;
+		if(summary.score >= 0)	{
+			scoreString = " + "+summary.score;
+		} else {
+			scoreString = " - "+summary.score;
+		}
+		$("#scoreSum").html(scoreString);
 		$("#totalPuttsSum").html(summary.totalPutts);	
 		$("#avePutsSum").html(summary.avePuts);	
 		$("#aveFairwayHitSum").html("%" + summary.aveFairwayHit);		
