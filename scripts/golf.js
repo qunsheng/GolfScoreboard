@@ -2,6 +2,7 @@
  * This is JavaScript libary for golf score phonegap application
  * To get latest code, go to 
  * https://github.com/qunsheng/GolfScoreboard
+ * 
  **************************************************************/ 
 var WEBCLOUZ= WEBCLOUZ || {};
 WEBCLOUZ.GOLF= WEBCLOUZ.GOLF || {};
@@ -64,6 +65,7 @@ WEBCLOUZ.GOLF.HoleInfo = function () {
 /************************************************************** 
  * GameSummary constructor
  * Purpose: calculate summary
+ * Usage: call WEBCLOUZ.GOLF.MODEL.init()
  **************************************************************/ 
 WEBCLOUZ.GOLF.GameSummary = function () {
 
@@ -287,13 +289,14 @@ WEBCLOUZ.GOLF.MODEL = (function (model) {
 }(WEBCLOUZ.GOLF.MODEL || {}));
 
 
-WEBCLOUZ.GOLF.MODEL.init();
+
 
 
 /************************************************************** 
  * JavaScript module: WEBCLOU.GOLF.CONTROLER
  * Purpose: responsible for updating views
  * Of special note: loosed couple design, know nothing about model
+ * Usage: call WEBCLOUZ.GOLF.CONTROLER.init()
  **************************************************************/ 
 WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 	
@@ -641,4 +644,4 @@ WEBCLOUZ.GOLF.CONTROLER = (function (controller) {
 	return controller;
 }(WEBCLOUZ.GOLF.CONTROLER || {}));
 
-WEBCLOUZ.GOLF.CONTROLER.init();
+
